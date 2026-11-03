@@ -15,7 +15,9 @@ RUN apt-get update && \
    useradd -r -g appgroup appuser
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt && \
+    python -m pip install --no-cache-dir --upgrade pip "setuptools>=78.1.1" wheel && \
+    find /usr/local/lib/python3.10/site-packages/pip -name "bom.cdx.json" -delete
 
 COPY . .
 RUN chown -R appuser:appgroup /app
